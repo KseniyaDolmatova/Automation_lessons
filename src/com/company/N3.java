@@ -6,7 +6,7 @@ public class N3 {
     }
 
     public static void printColor() {
-        int value = -1; // Вы можете выбрать любые значения
+        int value = -1;
 
         if (value <= 0) {
             System.out.println("Красный");

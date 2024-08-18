@@ -6,9 +6,8 @@ public class N4 {
     }
 
     public static void compareNumbers() {
-        int a = 1; // Задайте любое значение
-        int b = 3; // Задайте любое значение
-
+        int a = 1;
+        int b = 3;
         if (a >= b) {
             System.out.println(a + " >= " + b);
         } else {

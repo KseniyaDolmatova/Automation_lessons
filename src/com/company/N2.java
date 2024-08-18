@@ -6,8 +6,8 @@ public class N2 {
     }
 
     public static void checkSumSign() {
-        int a = 7; // Вы можете выбрать любые значения
-        int b = -10; // Вы можете выбрать любые значения
+        int a = 7;
+        int b = -10;
 
         int sum = a + b;
 
