@@ -6,14 +6,14 @@ public class ArrayGenerator {
         int len = 7;
         int initialValue = 1;
 
-        int[] array = new int[len];
+        int[] arr = new int[len];
 
         for (int i = 0; i < len; i++) {
-            array[i] = initialValue;
+            arr[i] = initialValue;
         }
 
         for (int i = 0; i < len; i++) {
-            System.out.print(array[i] + " ");
+            System.out.print(arr[i] + " ");
         }
     }
 }
