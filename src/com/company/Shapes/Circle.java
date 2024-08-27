@@ -1,14 +1,11 @@
 package com.company.Shapes;
 
-public class Circle implements Shape {
+public class Circle extends Shape implements AreaCalculable, PerimeterCalculable {
     private double radius;
-    private String fillColor;
-    private String borderColor;
 
     public Circle(double radius, String fillColor, String borderColor) {
+        super(fillColor, borderColor);
         this.radius = radius;
-        this.fillColor = fillColor;
-        this.borderColor = borderColor;
     }
 
     @Override
@@ -19,15 +16,5 @@ public class Circle implements Shape {
     @Override
     public double calculateArea() {
         return Math.PI * Math.pow(radius, 2); // Площадь круга
-    }
-
-    @Override
-    public String getFillColor() {
-        return fillColor;
-    }
-
-    @Override
-    public String getBorderColor() {
-        return borderColor;
     }
 }

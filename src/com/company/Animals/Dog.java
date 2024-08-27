@@ -14,11 +14,11 @@ class Dog extends Animal {
     public void run(int distance) {
         if (distance < 0) {
             System.out.println(name + " не может пробежать отрицательную дистанцию.");
-        } else if (distance <= 500) { // Ограничение на дистанцию бега собаки
+        } else if (distance <= 500) {
             totalRunDistance += distance;
             System.out.println(name + " пробежал " + distance + " м.");
         } else {
-            System.out.println(name + " не может пробежать " + distance + " м."); // Условия не выполнены
+            System.out.println(name + " не может пробежать " + distance + " м.");
         }
     }
 
@@ -26,11 +26,11 @@ class Dog extends Animal {
     public void swim(int distance) {
         if (distance < 0) {
             System.out.println(name + " не может плыть отрицательную дистанцию.");
-        } else if (distance <= 10) { // Ограничение на дистанцию плавания собаки
+        } else if (distance <= 10) {
             totalSwimDistance += distance;
             System.out.println(name + " проплыл " + distance + " м.");
         } else {
-            System.out.println(name + " не может проплыть " + distance + " м."); // Условия не выполнены
+            System.out.println(name + " не может проплыть " + distance + " м.");
         }
     }
 

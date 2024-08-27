@@ -15,17 +15,17 @@ class Cat extends Animal {
     public void run(int distance) {
         if (distance < 0) {
             System.out.println(name + " не может пробежать отрицательную дистанцию.");
-        } else if (distance <= 200) { // Ограничение на дистанцию бега кота
+        } else if (distance <= 200) {
             totalRunDistance += distance;
-            System.out.println(name + " пробежал " + distance + " м."); // Вывод пробежанного расстояния
+            System.out.println(name + " пробежал " + distance + " м.");
         } else {
-            System.out.println(name + " не может пробежать " + distance + " м."); // Условия не выполнены
+            System.out.println(name + " не может пробежать " + distance + " м.");
         }
     }
 
     @Override
     public void swim(int distance) {
-        System.out.println(name + " не умеет плавать."); // Коты не умеют плавать
+        System.out.println(name + " не умеет плавать.");
     }
 
     public void eat(FoodBowl bowl) {

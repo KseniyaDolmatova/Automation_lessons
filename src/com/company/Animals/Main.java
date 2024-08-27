@@ -19,15 +19,14 @@ public class Main {
 
         FoodBowl bowl = new FoodBowl(15);
 
-        // Каждый кот пробежит разное расстояние
         cats[0].eat(bowl);
-        cats[0].run(5); // Мурзик пробегает 5 м
+        cats[0].run(5);
 
         cats[1].eat(bowl);
         cats[1].run(-7);
 
         cats[2].eat(bowl);
-        cats[2].run(10); // Барсик пробегает 10 м
+        cats[2].run(10);
 
         for (Cat cat : cats) {
             System.out.println("Кот " + cat.name + (cat.isFull() ? " сыт" : " голоден"));

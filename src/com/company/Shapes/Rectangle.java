@@ -1,16 +1,13 @@
 package com.company.Shapes;
 
-public class Rectangle implements Shape {
+public class Rectangle extends Shape implements AreaCalculable, PerimeterCalculable {
     private double width;
     private double height;
-    private String fillColor;
-    private String borderColor;
 
     public Rectangle(double width, double height, String fillColor, String borderColor) {
+        super(fillColor, borderColor);
         this.width = width;
         this.height = height;
-        this.fillColor = fillColor;
-        this.borderColor = borderColor;
     }
 
     @Override
@@ -21,15 +18,5 @@ public class Rectangle implements Shape {
     @Override
     public double calculateArea() {
         return width * height; // Площадь прямоугольника
-    }
-
-    @Override
-    public String getFillColor() {
-        return fillColor;
-    }
-
-    @Override
-    public String getBorderColor() {
-        return borderColor;
     }
 }

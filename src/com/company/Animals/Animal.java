@@ -1,8 +1,8 @@
 package com.company.Animals;
 
 abstract class Animal {
-    private static int animalCount = 0; // Счетчик животных
-    protected String name; // Имя животного
+    private static int animalCount = 0;
+    protected String name;
 
     public Animal(String name) {
         this.name = name;

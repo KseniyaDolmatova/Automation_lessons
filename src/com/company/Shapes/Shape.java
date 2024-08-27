@@ -1,14 +1,19 @@
 package com.company.Shapes;
 
-public interface Shape {
-    String getFillColor(); // Цвет заливки
-    String getBorderColor(); // Цвет границы
+public abstract class Shape {
+    protected String fillColor; // Цвет заливки
+    protected String borderColor; // Цвет границы
 
-    // Расчет периметра
-    default double calculatePerimeter() {
-        return 0;
+    public Shape(String fillColor, String borderColor) {
+        this.fillColor = fillColor;
+        this.borderColor = borderColor;
     }
 
-    // Расчет площади
-    double calculateArea();
+    public String getFillColor() {
+        return fillColor;
+    }
+
+    public String getBorderColor() {
+        return borderColor;
+    }
 }

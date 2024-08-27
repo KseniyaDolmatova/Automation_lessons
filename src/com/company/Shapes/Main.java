@@ -15,8 +15,15 @@ public class Main {
         System.out.println("Фигура: " + shape.getClass().getSimpleName());
         System.out.println("Цвет заливки: " + shape.getFillColor());
         System.out.println("Цвет границы: " + shape.getBorderColor());
-        System.out.printf("Периметр: %.2f м.%n", shape.calculatePerimeter());
-        System.out.printf("Площадь: %.2f м²%n", shape.calculateArea());
+
+        if (shape instanceof PerimeterCalculable) {
+            System.out.printf("Периметр: %.2f м.%n", ((PerimeterCalculable) shape).calculatePerimeter());
+        }
+
+        if (shape instanceof AreaCalculable) {
+            System.out.printf("Площадь: %.2f м²%n", ((AreaCalculable) shape).calculateArea());
+        }
+
         System.out.println("");
     }
 }
