@@ -52,7 +52,6 @@ public class AppData {
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(";");
                 int[] intValues = new int[values.length];
-                // Преобразуем строки в целые числа
                 for (int i = 0; i < values.length; i++) {
                     intValues[i] = Integer.parseInt(values[i]);
                 }
