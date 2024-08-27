@@ -1,10 +1,10 @@
 package com.company.Animals;
 
 class FoodBowl {
-    private int food;
+    private int food; // Количество еды в миске
 
     public FoodBowl(int food) {
-        this.food = Math.max(food, 0);
+        this.food = Math.max(food, 0); // Еда не может быть отрицательной
     }
 
     public void decreaseFood(int amount) {
@@ -19,3 +19,4 @@ class FoodBowl {
         return food;
     }
 }
+

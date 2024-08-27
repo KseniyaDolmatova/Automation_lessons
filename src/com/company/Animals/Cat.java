@@ -3,24 +3,29 @@ package com.company.Animals;
 class Cat extends Animal {
     private static int catCount = 0;
     private boolean isFull;
+    private int totalRunDistance = 0;
 
-    public Cat() {
+    public Cat(String name) {
+        super(name);
         catCount++;
-        this.isFull = false;
+        this.isFull = false; // Кот изначально голоден
     }
 
     @Override
     public void run(int distance) {
-        if (distance <= 200) {
-            System.out.println("Кот пробежал " + distance + " м.");
+        if (distance < 0) {
+            System.out.println(name + " не может пробежать отрицательную дистанцию.");
+        } else if (distance <= 200) { // Ограничение на дистанцию бега кота
+            totalRunDistance += distance;
+            System.out.println(name + " пробежал " + distance + " м."); // Вывод пробежанного расстояния
         } else {
-            System.out.println("Кот не может пробежать " + distance + " м.");
+            System.out.println(name + " не может пробежать " + distance + " м."); // Условия не выполнены
         }
     }
 
     @Override
     public void swim(int distance) {
-        System.out.println("Кот не умеет плавать.");
+        System.out.println(name + " не умеет плавать."); // Коты не умеют плавать
     }
 
     public void eat(FoodBowl bowl) {
@@ -28,9 +33,9 @@ class Cat extends Animal {
             if (bowl.getFood() >= 5) {
                 bowl.decreaseFood(5);
                 isFull = true;
-                System.out.println("Кот поел и теперь сыт.");
+                System.out.println(name + " поел и теперь сыт.");
             } else {
-                System.out.println("У еды в тарелке недостаточно, кот не поел.");
+                System.out.println(name + " не поел, так как еды недостаточно.");
             }
         } else {
             System.out.println("В тарелке нет еды.");
@@ -43,5 +48,15 @@ class Cat extends Animal {
 
     public static int getCatCount() {
         return catCount;
+    }
+
+    @Override
+    public int getTotalRunDistance() {
+        return totalRunDistance;
+    }
+
+    @Override
+    public int getTotalSwimDistance() {
+        return 0; // Коты не плавают
     }
 }
