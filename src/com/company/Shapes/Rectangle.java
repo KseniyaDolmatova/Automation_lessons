@@ -11,12 +11,12 @@ public class Rectangle extends Shape implements AreaCalculable, PerimeterCalcula
     }
 
     @Override
-    public double calculatePerimeter() {
-        return 2 * (width + height); // Периметр прямоугольника
+    public double calculateArea() {
+        return width * height;
     }
 
     @Override
-    public double calculateArea() {
-        return width * height; // Площадь прямоугольника
+    public double calculatePerimeter() {
+        return 2 * (width + height);
     }
 }

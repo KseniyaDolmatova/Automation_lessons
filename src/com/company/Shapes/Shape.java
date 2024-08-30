@@ -1,8 +1,8 @@
 package com.company.Shapes;
 
 public abstract class Shape {
-    protected String fillColor; // Цвет заливки
-    protected String borderColor; // Цвет границы
+    private String fillColor;
+    private String borderColor;
 
     public Shape(String fillColor, String borderColor) {
         this.fillColor = fillColor;

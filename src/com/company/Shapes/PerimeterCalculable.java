@@ -1,6 +1,5 @@
 package com.company.Shapes;
 
-public interface PerimeterCalculable {
+interface PerimeterCalculable {
     double calculatePerimeter();
 }
-

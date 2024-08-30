@@ -2,13 +2,12 @@ package com.company.Animals;
 
 class Cat extends Animal {
     private static int catCount = 0;
-    private boolean isFull;
+    private boolean isFull = false;
     private int totalRunDistance = 0;
 
     public Cat(String name) {
         super(name);
         catCount++;
-        this.isFull = false; // Кот изначально голоден
     }
 
     @Override
@@ -29,16 +28,14 @@ class Cat extends Animal {
     }
 
     public void eat(FoodBowl bowl) {
-        if (bowl.getFood() > 0) {
-            if (bowl.getFood() >= 5) {
-                bowl.decreaseFood(5);
-                isFull = true;
-                System.out.println(name + " поел и теперь сыт.");
-            } else {
-                System.out.println(name + " не поел, так как еды недостаточно.");
-            }
+        if (!isFull && bowl.getFood() > 0) {
+            isFull = true;
+            bowl.decreaseFood(5);
+            System.out.println(name + " поел из тарелки.");
+        } else if (isFull) {
+            System.out.println(name + " уже сыт.");
         } else {
-            System.out.println("В тарелке нет еды.");
+            System.out.println(name + " не может поесть, в тарелке недостаточно еды.");
         }
     }
 
@@ -57,6 +54,6 @@ class Cat extends Animal {
 
     @Override
     public int getTotalSwimDistance() {
-        return 0; // Коты не плавают
+        return 0;
     }
 }

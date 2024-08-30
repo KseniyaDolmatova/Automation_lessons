@@ -1,5 +1,5 @@
 package com.company.Shapes;
 
-public interface AreaCalculable {
+interface AreaCalculable {
     double calculateArea();
 }

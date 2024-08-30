@@ -1,6 +1,6 @@
 package com.company.Shapes;
 
-public class Main {
+public class ShapeDemo {
     public static void main(String[] args) {
         Shape circle = new Circle(5, "Red", "Black");
         Shape rectangle = new Rectangle(4, 6, "Blue", "Green");
@@ -24,6 +24,6 @@ public class Main {
             System.out.printf("Площадь: %.2f м²%n", ((AreaCalculable) shape).calculateArea());
         }
 
-        System.out.println("");
+        System.out.println();
     }
 }

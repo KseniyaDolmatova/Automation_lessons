@@ -1,9 +1,9 @@
 package com.company.Shapes;
 
 public class Triangle extends Shape implements AreaCalculable, PerimeterCalculable {
-    private double sideA; // Сторона A
-    private double sideB; // Сторона B
-    private double sideC; // Сторона C
+    private double sideA;
+    private double sideB;
+    private double sideC;
 
     public Triangle(double sideA, double sideB, double sideC, String fillColor, String borderColor) {
         super(fillColor, borderColor);
@@ -13,13 +13,13 @@ public class Triangle extends Shape implements AreaCalculable, PerimeterCalculab
     }
 
     @Override
-    public double calculatePerimeter() {
-        return sideA + sideB + sideC; // Периметр треугольника
+    public double calculateArea() {
+        double s = (sideA + sideB + sideC) / 2;
+        return Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC));
     }
 
     @Override
-    public double calculateArea() {
-        double s = calculatePerimeter() / 2; // Полупериметр
-        return Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC)); // Площадь треугольника по формуле Герона
+    public double calculatePerimeter() {
+        return sideA + sideB + sideC;
     }
 }

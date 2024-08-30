@@ -1,6 +1,6 @@
 package com.company.Animals;
 
-public class Main {
+public class AnimalSimulator {
     public static void main(String[] args) {
         Dog dog1 = new Dog("Бобик");
         dog1.run(300);
@@ -10,7 +10,7 @@ public class Main {
         dog2.run(-200);
         dog2.swim(3);
 
-        // Создание котов
+// Создание котов
         Cat[] cats = {
                 new Cat("Мурзик"),
                 new Cat("Симба"),
