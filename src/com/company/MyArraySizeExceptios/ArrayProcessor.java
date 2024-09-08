@@ -1,21 +1,24 @@
 package com.company.MyArraySizeExceptios;
 
 public class ArrayProcessor {
-    public static void validateArray(String[][] array) throws MyArraySizeException {
-        if (array.length != 4 || array[0].length != 4) {
-            throw new MyArraySizeException("Не корректный массив, размер массива должен быть 4x4");
+    public static int processArray(String[][] array) throws MyArraySizeException, MyArrayDataException {
+        // Проверяем размер массива
+        if (array.length != 4) {
+            throw new MyArraySizeException("Не корректный массив, количество строк должно быть 4");
         }
-    }
+        for (String[] row : array) {
+            if (row.length != 4) {
+                throw new MyArraySizeException("Не корректный массив, количество столбцов должно быть 4");
+            }
+        }
 
-    public static int sumArray(String[][] array) throws MyArrayDataException {
         int sum = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 try {
                     sum += Integer.parseInt(array[i][j]);
                 } catch (NumberFormatException e) {
-                    // Указание на ячейку с 1 (добавлено +1 к индексу)
-                    throw new MyArrayDataException("Не удалось посчитать сумму элементов. Ошибка в ячейке на пересечении строки [" + (i + 1) + "] и столбца [" + (j + 1) + "]: " + array[i][j]);
+                    throw new MyArrayDataException("Ошибка в ячейке на пересечении строки [" + (i + 1) + "] и столбца [" + (j + 1) + "]: " + array[i][j]);
                 }
             }
         }
@@ -30,26 +33,39 @@ public class ArrayProcessor {
                 {"13", "14", "15", "16"}
         };
 
-        String[][] invalidArray = {
+        String[][] invalidArraySize = {
+                {"1", "2", "3", "4"},
+                {"5", "0", "7"},
+                {"9", "10", "11", "12"},
+                {"13", "14", "15", "16"}
+        };
+
+        String[][] invalidArrayData = {
                 {"1", "2", "X", "4"},
                 {"5", "6", "7", "8"},
                 {"9", "10", "11", "12"},
                 {"13", "14", "15", "16"}
         };
 
+        // Проверяем корректный массив
         try {
-            validateArray(validArray); // Этот вызов пройдет
-            System.out.println("Корректный масссив, соответствует размеру 4x4");
-            int sum = sumArray(validArray);
+            int sum = processArray(validArray);
+            System.out.println("Корректный массив: сумма элементов = " + sum);
+        } catch (MyArraySizeException | MyArrayDataException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Проверяем массив с некорректным размером
+        try {
+            int sum = processArray(invalidArraySize);
             System.out.println("Сумма элементов: " + sum);
         } catch (MyArraySizeException | MyArrayDataException e) {
             System.out.println(e.getMessage());
         }
 
+        // Проверяем массив с некорректными данными
         try {
-            validateArray(invalidArray); // Этот вызов пройдет
-            System.out.println("Корректный масссив, соответствует размеру 4x4");
-            int sum = sumArray(invalidArray); // Этот вызов вызовет исключение
+            int sum = processArray(invalidArrayData);
             System.out.println("Сумма элементов: " + sum);
         } catch (MyArraySizeException | MyArrayDataException e) {
             System.out.println(e.getMessage());
