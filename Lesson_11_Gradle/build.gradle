@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral() // Обязательно добавьте Maven Central
+}
+
+dependencies {
+    // Зависимости для JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.0'
+
+    // Зависимость для Selenium
+    implementation 'org.seleniumhq.selenium:selenium-java:4.20.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+   
