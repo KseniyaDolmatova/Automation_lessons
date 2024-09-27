@@ -10,12 +10,7 @@ public class EvenNumberCounter {
         int[] randomNumbers = generateRandomNumbers();
 
         // Подсчет четных чисел
-        int evenCount = 0;
-        for (int number : randomNumbers) {
-            if (number % 2 == 0) {
-                evenCount++;
-            }
-        }
+        int evenCount = countEvenNumbers(randomNumbers);
 
         System.out.println("Сгенерированные числа: " + Arrays.toString(randomNumbers));
         System.out.println("Количество четных чисел: " + evenCount);
@@ -25,6 +20,13 @@ public class EvenNumberCounter {
     private static int[] generateRandomNumbers() {
         Random random = new Random();
         return random.ints(50, 0, 100).toArray(); // Генерация чисел от 0 до 99
+    }
+
+    // Метод для подсчета четных чисел с использованием Stream API
+    private static int countEvenNumbers(int[] numbers) {
+        return (int) Arrays.stream(numbers)
+                .filter(number -> number % 2 == 0) // Фильтруем чётные числа
+                .count(); // Считаем их количество
     }
 }
 
