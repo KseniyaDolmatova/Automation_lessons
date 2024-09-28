@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.FactorialCalculatorTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-09-28T09:55:15" hostname="DESKTOP-98NF5KK" time="0.024">
+  <properties/>
+  <testcase name="testFactorialOfNegativeNumber()" classname="org.example.FactorialCalculatorTest" time="0.021"/>
+  <testcase name="testFactorialOfPositiveNumber()" classname="org.example.FactorialCalculatorTest" time="0.0"/>
+  <testcase name="testFactorialOfOne()" classname="org.example.FactorialCalculatorTest" time="0.0"/>
+  <testcase name="testFactorialOfZero()" classname="org.example.FactorialCalculatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
