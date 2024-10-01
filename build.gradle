@@ -5,15 +5,25 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+sourceCompatibility = '11'
+
 repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 dependencies {
-    testImplementation 'org.testng:testng:7.7.0'
-    testImplementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
+    dependencies {
+        implementation 'org.seleniumhq.selenium:selenium-java:4.25.0'  // Обновите до последней стабильной версии
+        implementation 'com.google.guava:guava:31.1-jre'
+        testImplementation 'org.testng:testng:7.7.0'
+        implementation 'org.slf4j:slf4j-log4j12:1.7.30'
+    }
 }
 
 test {
-    useJUnitPlatform()
+    useTestNG()
 }
