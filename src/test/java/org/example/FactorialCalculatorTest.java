@@ -35,6 +35,6 @@ class FactorialCalculatorTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             FactorialCalculator.factorial(21);
         });
-        assertEquals("Number must be less than or equal to 20", exception.getMessage());
+        assertEquals("Nmber must be less than or equal to 20", exception.getMessage());
     }
 }
