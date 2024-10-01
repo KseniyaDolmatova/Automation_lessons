@@ -29,4 +29,12 @@ class FactorialCalculatorTest {
         });
         assertEquals("Number must be non-negative", exception.getMessage());
     }
+
+    @Test
+    void testFactorialOfTooLargeNumber() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            FactorialCalculator.factorial(21);
+        });
+        assertEquals("Number must be less than or equal to 20", exception.getMessage());
+    }
 }

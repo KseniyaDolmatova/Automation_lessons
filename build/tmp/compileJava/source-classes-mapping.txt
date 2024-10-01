@@ -1,4 +1,0 @@
-org/example/FactorialCalculator.java
- org.example.FactorialCalculator
-org/example/App.java
- org.example.App
