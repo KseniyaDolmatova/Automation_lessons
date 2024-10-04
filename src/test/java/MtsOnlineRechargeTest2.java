@@ -204,6 +204,34 @@ public class MtsOnlineRechargeTest2 {
         Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
     }
 
+    @Test
+    public void testContinueButtonFunctionality() {
+        // Заполнение формы
+        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > div.pay__form > div.select > div.select__wrapper > button")));
+        serviceTypeDropdown.click();
+
+        // Выбираем «Услуги связи»
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[text()='Услуги связи']")));
+        serviceOption.click();
+
+        // Заполняем телефон
+        WebElement phoneNumberInput = driver.findElement(By.cssSelector("#connection-phone"));
+        phoneNumberInput.sendKeys("297777777");
+
+        // Заполняем сумму
+        WebElement sum = driver.findElement(By.cssSelector("#connection-sum")); // Убедитесь, что здесь правильный селектор
+        sum.sendKeys("100");
+
+        // Нажимаем на кнопку
+        WebElement continueButton = driver.findElement(By.cssSelector("#pay-connection > button"));
+        continueButton.click();
+
+        // Проверка появления модального окна
+        WebElement modalWindow = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > a")));
+
+        Assert.assertTrue(modalWindow.isDisplayed(), "Модальное окно не отображается.");
+    }
+
     @AfterClass
     public void tearDown() {
         if (driver != null) {
