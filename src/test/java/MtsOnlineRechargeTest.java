@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class MtsOnlineRechargeTest {
+public class MtsOnlineRechargeTest2 {
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -35,6 +35,30 @@ public class MtsOnlineRechargeTest {
         } catch (Exception e) {
             System.out.println("Кнопка 'Принять' не найдена: " + e.getMessage());
         }
+    }
+
+    @Test
+    public void testFieldLabelsInPaymentOptions() {
+
+        // Заполнение формы
+        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button")));
+        serviceTypeDropdown.click();
+
+        // Выбираем «Услуги связи»
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/ul/li[1]/p")));
+        serviceOption.click();
+
+        WebElement countryCodeLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-connection\"]/div[1]/label")));
+        WebElement phoneLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"connection-phone\"]")));
+        WebElement sumLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"connection-sum\"]")));
+        WebElement currencyLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-connection\"]/div[2]/label")));
+        WebElement emailLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"connection-email\"]")));
+
+        Assert.assertEquals(countryCodeLabel.getText(), "+375", "Надпись для кода страны неверна");
+        Assert.assertEquals(phoneLabel.getText(), "Номер телефона", "Надпись для теелефона неверна");
+        Assert.assertEquals(sumLabel.getText(), "Сумма", "Надпись для суммы неверна.");
+        Assert.assertEquals(currencyLabel.getText(), "Руб.", "Надпись для валюты неверна.");
+        Assert.assertEquals(emailLabel.getText(), "E-mail для отправки чека", "Надпись для email неверна.");
     }
 
     @Test
