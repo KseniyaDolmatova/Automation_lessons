@@ -38,6 +38,12 @@ public class MtsOnlineRechargeTest {
     }
 
     @Test
+    public void testBlockTitle() {
+        WebElement blockTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/h2")));
+        Assert.assertEquals(blockTitle.getText(), "Онлайн пополнение\n" + "без комиссии", "Название блока неверно.");
+    }
+
+    @Test
     public void testPaymentSystemLogos() {
         // Ожидаем, пока логотипы Visa и MasterCard станут видимыми
         WebElement visaLogo = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[2]/ul/li[1]/img")));
