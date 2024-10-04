@@ -1,7 +1,4 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -232,7 +229,7 @@ public class MtsOnlineRechargeTest2 {
     }
 
     private void verifyDisplayedInformation(String expectedPhoneNumber, String expectedAmount) {
-        //verifyPhoneNumber(expectedPhoneNumber);
+        verifyPhoneNumber(expectedPhoneNumber);
         verifyAmount(expectedAmount);
         verifyPaymentButton(expectedAmount);
         verifyCardInputLabels();
@@ -240,19 +237,37 @@ public class MtsOnlineRechargeTest2 {
     }
 
         // Проверка отображения номера телефона
-        //private void verifyPhoneNumber (String expectedPhoneNumber){
-           // WebElement displayedCountryCode = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'pay-description__text')]/span")));
-          //  String displayedText = displayedCountryCode.getText();
+        private void verifyPhoneNumber (String expectedPhoneNumber){
+            WebElement displayedCountryCode = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[_ngcontent-der-c62] span"))
+            );
+            String displayedText = displayedCountryCode.getText();
 
-          //  String expectedCountryCode = "+375"; // Ожидаемый код страны
-           // Assert.assertTrue(displayedText.startsWith(expectedCountryCode), "Код страны отображается неверно");
+            String expectedCountryCode = "+375"; // Ожидаемый код страны
+            Assert.assertTrue(displayedText.startsWith(expectedCountryCode), "Код страны отображается неверно");
 
-           // String phoneWithoutCode = expectedPhoneNumber.replaceFirst("\\+375", ""); // Удаляем код страны для сравнения
-          //  Assert.assertTrue(displayedText.contains(phoneWithoutCode), "Номер телефона отображается неверно");
-      //  }
+            String phoneWithoutCode = expectedPhoneNumber.replaceFirst("\\+375", ""); // Удаляем код страны для сравнения
+            Assert.assertTrue(displayedText.contains(phoneWithoutCode), "Номер телефона отображается неверно");
+
+            // Используем JavascriptExecutor для получения информации о платеже
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+            // Получаем текст из элемента с оплатой, который содержит код страны и номер
+            String paymentDetails = (String) js.executeScript(
+                    "return document.querySelector('div.pay-description__text span').innerText;"
+            );
+
+            // Исходя из полученного текста, извлекаем код страны и номер
+            String[] paymentInfo = paymentDetails.split("Номер:");
+            String retrievedPhoneNumber = paymentInfo[1].trim(); // Извлекаем номер после "Номер:"
+
+            // Теперь проверяем код страны и номер на соответствие
+            Assert.assertTrue(retrievedPhoneNumber.startsWith("375"), "Код страны в номере неверный");
+            Assert.assertEquals(retrievedPhoneNumber, phoneWithoutCode, "Номер телефона отображается неверно");
+        }
 
         // Проверка суммы и валюты
-        private void verifyAmount (String expectedAmount){
+       private void verifyAmount (String expectedAmount){
             WebElement amountContainer = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Руб.')]")));
             String amountText = amountContainer.getText();
             Assert.assertTrue(amountText.contains(expectedAmount), "Сумма неверна");
