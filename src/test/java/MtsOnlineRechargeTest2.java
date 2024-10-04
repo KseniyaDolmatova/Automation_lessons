@@ -38,97 +38,170 @@ public class MtsOnlineRechargeTest2 {
     }
 
     @Test
-    public void testFieldLabelsInPaymentOptions() {
+    public void testFieldLabelsInCommunicationServices() {
+        // Выбор типа сервиса "Услуги связи"
+        selectServiceInCommunicationServices("Услуги связи");
 
-        // Заполнение формы
+        // Проверка полей
+        checkPhoneFieldInCommunicationServices();
+        checkSumFieldInCommunicationServices();
+        checkEmailFieldInCommunicationServices();
+    }
+
+    private void selectServiceInCommunicationServices(String serviceName) {
         WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button")));
         serviceTypeDropdown.click();
 
-        // Выбираем «Услуги связи»
-        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/ul/li[1]/p")));
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/ul/li[1]/p"))); // Выбираем "Услуги связи"
         serviceOption.click();
+    }
 
-        WebElement countryCodeLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-connection\"]/div[1]/label")));
-        WebElement phoneLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"connection-phone\"]")));
-        WebElement sumLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"connection-sum\"]")));
-        WebElement currencyLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-connection\"]/div[2]/label")));
-        WebElement emailLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"connection-email\"]")));
+    // Проверка полей для телефона
+    private void checkPhoneFieldInCommunicationServices() {
+        WebElement phoneLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='connection-phone']")));
+        WebElement phoneInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='connection-phone']")));
 
-        Assert.assertEquals(countryCodeLabel.getText(), "+375", "Надпись для кода страны неверна");
-        Assert.assertEquals(phoneLabel.getText(), "Номер телефона", "Надпись для теелефона неверна");
-        Assert.assertEquals(sumLabel.getText(), "Сумма", "Надпись для суммы неверна.");
-        Assert.assertEquals(currencyLabel.getText(), "Руб.", "Надпись для валюты неверна.");
-        Assert.assertEquals(emailLabel.getText(), "E-mail для отправки чека", "Надпись для email неверна.");
+        Assert.assertEquals(phoneLabel.getText(), "+375", "Надпись для кода страны неверна");
+        Assert.assertEquals(phoneInput.getAttribute("placeholder"), "Номер телефона", "Надпись для телефона неверна");
+    }
+
+    // Проверка полей для суммы
+    private void checkSumFieldInCommunicationServices() {
+        WebElement sumLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='connection-sum']")));
+        WebElement sumInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='connection-sum']")));
+
+        Assert.assertEquals(sumLabel.getText(), "Руб.", "Надпись для валюты неверна");
+        Assert.assertEquals(sumInput.getAttribute("placeholder"), "Сумма", "Надпись для суммы неверна");
+    }
+
+    // Проверка полей для email
+    private void checkEmailFieldInCommunicationServices() {
+        WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='connection-email']")));
+
+        Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
     }
 
     @Test
-    public void testBlockTitle() {
-        WebElement blockTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/h2")));
-        Assert.assertEquals(blockTitle.getText(), "Онлайн пополнение\n" + "без комиссии", "Название блока неверно.");
+    public void testFieldLabelsInHomeInternet() {
+        // Выбор типа сервиса "Домашний интернет"
+        selectServiceInHomeInternet("Домашний интернет");
+
+        // Проверка полей
+        checkPhoneFieldInHomeInternet();
+        checkSumFieldInHomeInternet();
+        checkEmailFieldInHomeInternet();
     }
 
-    @Test
-    public void testPaymentSystemLogos() {
-        // Ожидаем, пока логотипы Visa и MasterCard станут видимыми
-        WebElement visaLogo = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[2]/ul/li[1]/img")));
-        WebElement mastercardLogo = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[2]/ul/li[3]/img")));
-
-        // Проверяем, отображаются ли логотипы
-        Assert.assertTrue(visaLogo.isDisplayed(), "Логотип Visa не отображается.");
-        Assert.assertTrue(mastercardLogo.isDisplayed(), "Логотип MasterCard не отображается.");
-    }
-
-    @Test
-    public void testMoreInfoLink() {
-        // Ищем элемент ссылки на 'Подробнее о сервисе'
-        WebElement moreInfoLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > a")));
-
-        // Проверяем, что href доступен
-        String linkHref = moreInfoLink.getAttribute("href");
-        Assert.assertNotNull(linkHref, "Ссылка на 'Подробнее о сервисе' отсутствует.");
-
-        // Клик по ссылке
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].click();", moreInfoLink);
-
-        // Ожидаем, пока новая страница загрузится, и проверяем заголовок
-        wait.until(ExpectedConditions.titleIs("Порядок оплаты и безопасность интернет платежей"));
-        Assert.assertEquals(driver.getTitle(), "Порядок оплаты и безопасность интернет платежей", "Переход по ссылке не сработал.");
-
-        // Проверка URL
-        String expectedUrl = "https://www.mts.by/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/"; // Замените на фактический ожидаемый URL
-        Assert.assertEquals(driver.getCurrentUrl(), expectedUrl, "URL не соответствует ожидаемому после перехода.");
-
-        // Возвращаемся на предыдущую страницу
-        driver.navigate().back();
-    }
-
-    @Test
-    public void testContinueButtonFunctionality() {
-        // Заполнение формы
-        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > div.pay__form > div.select > div.select__wrapper > button")));
+    private void selectServiceInHomeInternet(String serviceName) {
+        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button")));
         serviceTypeDropdown.click();
 
-        // Выбираем «Услуги связи»
-        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[text()='Услуги связи']")));
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[text()='" + serviceName + "']"))); // замените конкретный XPath на более универсальный
         serviceOption.click();
+    }
 
-        // Заполняем телефон
-        WebElement phoneNumberInput = driver.findElement(By.cssSelector("#connection-phone"));
-        phoneNumberInput.sendKeys("297777777");
+    private void checkPhoneFieldInHomeInternet() {
+        WebElement phoneLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='internet-phone']")));
+        WebElement phoneInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='internet-phone']")));
 
-        // Заполняем сумму
-        WebElement sum = driver.findElement(By.cssSelector("#connection-sum")); // Убедитесь, что здесь правильный селектор
-        sum.sendKeys("100");
+        Assert.assertEquals(phoneLabel.getText(), "+375", "Надпись для кода страны неверна");
+        Assert.assertEquals(phoneInput.getAttribute("placeholder"), "Номер абонента", "Надпись для телефона неверна");
+    }
 
-        // Нажимаем на кнопку
-        WebElement continueButton = driver.findElement(By.cssSelector("#pay-connection > button"));
-        continueButton.click();
+    private void checkSumFieldInHomeInternet() {
+        WebElement sumLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='internet-sum']")));
+        WebElement sumInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='internet-sum']")));
 
-        // Проверка появления модального окна
-        WebElement modalWindow = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > a")));
+        Assert.assertEquals(sumLabel.getText(), "Руб.", "Надпись для валюты неверна");
+        Assert.assertEquals(sumInput.getAttribute("placeholder"), "Сумма", "Надпись для суммы неверна");
+    }
 
-        Assert.assertTrue(modalWindow.isDisplayed(), "Модальное окно не отображается.");
+    private void checkEmailFieldInHomeInternet() {
+        WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='internet-email']")));
+        Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
+    }
+
+    @Test
+    public void testFieldLabelsInInstallmentServices() {
+        // Выбор типа сервиса "Рассрочка"
+        selectServiceInInstallmentServices("Рассрочка");
+
+        // Проверка полей
+        checkAccountNumberFieldInInstallmentServices(); // Проверка поля для номера счета
+        checkInstalmentSumFieldInInstallmentServices(); // Проверка поля для суммы
+        checkEmailFieldInInstallmentServices(); // Проверка поля для email
+    }
+
+    private void selectServiceInInstallmentServices(String serviceName) {
+        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button")));
+        serviceTypeDropdown.click();
+
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/ul/li[3]/p"))); // Выбираем "Рассрочка"
+        serviceOption.click();
+    }
+
+    // Проверка поля для номера счета
+    private void checkAccountNumberFieldInInstallmentServices() {
+        WebElement accountNumberInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='score-instalment']")));
+
+        Assert.assertEquals(accountNumberInput.getAttribute("placeholder"), "Номер счета на 44", "Надпись для номера счета неверна");
+    }
+
+    // Проверка поля для суммы рассрочки
+    private void checkInstalmentSumFieldInInstallmentServices() {
+        WebElement instalmentSumInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='instalment-sum']"))); // Поле суммы рассрочки
+        WebElement instalmentSumLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='instalment-sum']")));
+
+        Assert.assertEquals(instalmentSumLabel.getText(), "Руб.", "Надпись для валюты неверна");
+        Assert.assertEquals(instalmentSumInput.getAttribute("placeholder"), "Сумма", "Надпись для суммы неверна");
+    }
+
+    // Проверка полей для email
+    private void checkEmailFieldInInstallmentServices() {
+        WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='instalment-email']")));
+
+        Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
+    }
+
+    @Test
+    public void testFieldLabelsInDebtServices() {
+        // Выбор типа сервиса "Задолженность"
+        selectServiceInDebtServices("Задолженность");
+
+        // Проверка полей
+        checkAccountNumberFieldInDebtServices(); // Проверка поля для номера счета
+        checkDebtSumFieldInDebtServices(); // Проверка поля для суммы задолженности
+        checkEmailFieldInDebtServices(); // Проверка поля для email
+    }
+
+    private void selectServiceInDebtServices(String serviceName) {
+        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button")));
+        serviceTypeDropdown.click();
+
+        // Выбираем "Задолженность"
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/ul/li[4]/p")));
+        serviceOption.click();
+    }
+
+    // Проверка поля для номера счета
+    private void checkAccountNumberFieldInDebtServices() {
+        WebElement accountNumberInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='score-arrears']")));
+        Assert.assertEquals(accountNumberInput.getAttribute("placeholder"), "Номер счета на 2073", "Надпись для номера счета неверна");
+    }
+
+    // Проверка поля для суммы задолженности
+    private void checkDebtSumFieldInDebtServices() {
+        WebElement debtSumInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='arrears-sum']")));
+        WebElement debtSumLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-arrears\"]/div[2]/label")));
+
+        Assert.assertEquals(debtSumLabel.getText(), "Руб.", "Надпись для валюты неверна");
+        Assert.assertEquals(debtSumInput.getAttribute("placeholder"), "Сумма", "Надпись для суммы неверна");
+    }
+
+    // Проверка поля для email
+    private void checkEmailFieldInDebtServices() {
+        WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='arrears-email']")));
+        Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
     }
 
     @AfterClass
