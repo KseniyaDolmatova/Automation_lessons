@@ -72,7 +72,7 @@ public class MtsOnlineRechargeTest {
         Assert.assertEquals(driver.getTitle(), "Порядок оплаты и безопасность интернет платежей", "Переход по ссылке не сработал.");
 
         // Проверка URL
-        String expectedUrl = "https://www.mts.by/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/"; // Замените на фактический ожидаемый URL
+        String expectedUrl = "https://www.mts.by/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/";
         Assert.assertEquals(driver.getCurrentUrl(), expectedUrl, "URL не соответствует ожидаемому после перехода.");
 
         // Возвращаемся на предыдущую страницу
@@ -94,7 +94,7 @@ public class MtsOnlineRechargeTest {
         phoneNumberInput.sendKeys("297777777");
 
         // Заполняем сумму
-        WebElement sum = driver.findElement(By.cssSelector("#connection-sum")); // Убедитесь, что здесь правильный селектор
+        WebElement sum = driver.findElement(By.cssSelector("#connection-sum"));
         sum.sendKeys("100");
 
         // Нажимаем на кнопку
