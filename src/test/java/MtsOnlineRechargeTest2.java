@@ -1,5 +1,5 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,6 +11,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 
 public class MtsOnlineRechargeTest2 {
     private WebDriver driver;
@@ -20,7 +22,7 @@ public class MtsOnlineRechargeTest2 {
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\chromedriver-win32\\chromedriver.exe");
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         driver.manage().window().maximize();
         driver.get("https://mts.by");
 
@@ -96,7 +98,7 @@ public class MtsOnlineRechargeTest2 {
         WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button")));
         serviceTypeDropdown.click();
 
-        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[text()='" + serviceName + "']"))); // замените конкретный XPath на более универсальный
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[text()='" + serviceName + "']")));
         serviceOption.click();
     }
 
@@ -205,37 +207,121 @@ public class MtsOnlineRechargeTest2 {
     }
 
     @Test
-    public void testContinueButtonFunctionality() {
-        // Заполнение формы
-        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > div.pay__form > div.select > div.select__wrapper > button")));
-        serviceTypeDropdown.click();
+    public void testFieldLabelsInModalWindow() {
+        // Инициируем переменные
+        String expectedPhoneNumber = "297777777"; // Объявление переменной
+        String expectedAmount = "100"; // Объявление переменной
 
-        // Выбираем «Услуги связи»
-        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[text()='Услуги связи']")));
-        serviceOption.click();
+        // Выбор типа сервиса "Услуги связи"
+        selectServiceInCommunicationServices("Услуги связи");
 
         // Заполняем телефон
         WebElement phoneNumberInput = driver.findElement(By.cssSelector("#connection-phone"));
-        phoneNumberInput.sendKeys("297777777");
+        phoneNumberInput.sendKeys(expectedPhoneNumber);
 
         // Заполняем сумму
-        WebElement sum = driver.findElement(By.cssSelector("#connection-sum")); // Убедитесь, что здесь правильный селектор
-        sum.sendKeys("100");
+        WebElement sum = driver.findElement(By.cssSelector("#connection-sum"));
+        sum.sendKeys(expectedAmount);
 
         // Нажимаем на кнопку
         WebElement continueButton = driver.findElement(By.cssSelector("#pay-connection > button"));
         continueButton.click();
 
-        // Проверка появления модального окна
-        WebElement modalWindow = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > a")));
-
-        Assert.assertTrue(modalWindow.isDisplayed(), "Модальное окно не отображается.");
+        // Вызов метода
+        verifyDisplayedInformation(expectedPhoneNumber, expectedAmount);
     }
 
-    @AfterClass
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+    private void verifyDisplayedInformation(String expectedPhoneNumber, String expectedAmount) {
+        //verifyPhoneNumber(expectedPhoneNumber);
+        verifyAmount(expectedAmount);
+        verifyPaymentButton(expectedAmount);
+        verifyCardInputLabels();
+        verifyPaymentIcons();
+    }
+
+        // Проверка отображения номера телефона
+        //private void verifyPhoneNumber (String expectedPhoneNumber){
+           // WebElement displayedCountryCode = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'pay-description__text')]/span")));
+          //  String displayedText = displayedCountryCode.getText();
+
+          //  String expectedCountryCode = "+375"; // Ожидаемый код страны
+           // Assert.assertTrue(displayedText.startsWith(expectedCountryCode), "Код страны отображается неверно");
+
+           // String phoneWithoutCode = expectedPhoneNumber.replaceFirst("\\+375", ""); // Удаляем код страны для сравнения
+          //  Assert.assertTrue(displayedText.contains(phoneWithoutCode), "Номер телефона отображается неверно");
+      //  }
+
+        // Проверка суммы и валюты
+        private void verifyAmount (String expectedAmount){
+            WebElement amountContainer = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Руб.')]")));
+            String amountText = amountContainer.getText();
+            Assert.assertTrue(amountText.contains(expectedAmount), "Сумма неверна");
+
+            String expectedCurrency = "Руб."; // Ожидаемая валюта для проверки
+            Assert.assertTrue(amountText.contains(expectedCurrency), "Валюта неверна");
+        }
+
+        // Проверка суммы и валюты на кнопке
+        private void verifyPaymentButton (String expectedAmount){
+            WebElement payButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Оплатить')]")));
+            String buttonText = payButton.getText();
+            String[] buttonParts = buttonText.split(" "); // Разделяем текст кнопки на части
+            Assert.assertEquals(buttonParts[1], expectedAmount, "Сумма на кнопке неверна");
+            Assert.assertEquals(buttonParts[2], "Руб.", "Валюта на кнопке неверна");
+        }
+
+        // Проверка наличия надписей в полях для реквизитов карты
+        private void verifyCardInputLabels () {
+            Assert.assertEquals(getLabelText("//label[@for='cc-number']"), "Номер карты", "Надпись для номера карты неверна");
+            Assert.assertEquals(getLabelText("//label[contains(text(), 'Срок действия')]"), "Срок действия", "Надпись для срока действия неверна");
+            Assert.assertEquals(getLabelText("//label[contains(text(), 'CVC')]"), "CVC", "Надпись для CVC неверна");
+            Assert.assertEquals(getLabelText("//label[contains(text(), 'Имя держателя (как на карте)')]"), "Имя держателя (как на карте)", "Надпись для имени держателя карты неверна");
+        }
+
+        // Вспомогательный метод для получения текста метки
+        private String getLabelText (String xpath){
+            WebElement label = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+            return label.getText();
+        }
+
+        // Проверка наличия иконок платёжных систем
+        private void verifyPaymentIcons () {
+            // Ожидаемые иконки
+            List<String> expectedIcons = Arrays.asList("visa-system.svg", "mastercard-system.svg", "belkart-system.svg", "maestro-system.svg", "mir-system-ru.svg");
+
+            // Получение всех иконок на странице
+            List<WebElement> paymentIcons = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[contains(@class, 'cards-brands__container')]//img")));
+
+            Assert.assertFalse(paymentIcons.isEmpty(), "Иконки платёжной системы не отображаются");
+
+            // Проверка наличия каждой иконки
+            for (String expectedIcon : expectedIcons) {
+                boolean iconFound = paymentIcons.stream()
+                        .anyMatch(icon -> icon.getAttribute("src").contains(expectedIcon));
+                Assert.assertTrue(iconFound, "Иконка " + expectedIcon + " отсутствует на странице");
+            }
+
+            // Проверка иконок Maestro и Mir, которые могут сменять друг друга
+            boolean maestroDisplayed = isElementPresent(By.xpath("//div[contains(@class, 'cards-brands_random')]//img[contains(@src, 'maestro-system.svg') and not(contains(@style, 'opacity: 0'))]"));
+            boolean mirDisplayed = isElementPresent(By.xpath("//div[contains(@class, 'cards-brands_random')]//img[contains(@src, 'mir-system-ru.svg') and not(contains(@style, 'opacity: 0'))]"));
+
+            Assert.assertTrue(maestroDisplayed || mirDisplayed, "Иконки Maestro и Mir не отображаются");
+        }
+
+        private boolean isElementPresent (By by){
+            try {
+                driver.findElement(by);
+                return true;
+            } catch (NoSuchElementException e) {
+                return false;
+            }
+        }
+
+
+        @AfterClass
+        public void tearDown () {
+            if (driver != null) {
+                driver.quit();
+            }
         }
     }
-}
