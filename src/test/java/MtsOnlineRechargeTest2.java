@@ -19,7 +19,7 @@ public class MtsOnlineRechargeTest2 {
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\chromedriver-win32\\chromedriver.exe");
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         driver.manage().window().maximize();
         driver.get("https://mts.by");
 
@@ -57,6 +57,7 @@ public class MtsOnlineRechargeTest2 {
 
     // Проверка полей для телефона
     private void checkPhoneFieldInCommunicationServices() {
+
         WebElement phoneLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='connection-phone']")));
         WebElement phoneInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='connection-phone']")));
 
@@ -207,7 +208,7 @@ public class MtsOnlineRechargeTest2 {
     public void testFieldLabelsInModalWindow() {
         // Инициируем переменные
         String expectedPhoneNumber = "297777777"; // Объявление переменной
-        String expectedAmount = "100"; // Объявление переменной
+        String expectedAmount = "100.00"; // Объявление переменной
 
         // Выбор типа сервиса "Услуги связи"
         selectServiceInCommunicationServices("Услуги связи");
@@ -236,10 +237,11 @@ public class MtsOnlineRechargeTest2 {
         verifyPaymentIcons();
     }
 
-        // Проверка отображения номера телефона
+        // Проверка отображения кода страны и номера телефона
         private void verifyPhoneNumber (String expectedPhoneNumber){
             WebElement displayedCountryCode = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[_ngcontent-der-c62] span"))
+
+                    ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='pay-description__text']//*[text()='Оплата']"))
             );
             String displayedText = displayedCountryCode.getText();
 
@@ -287,7 +289,7 @@ public class MtsOnlineRechargeTest2 {
 
         // Проверка наличия надписей в полях для реквизитов карты
         private void verifyCardInputLabels () {
-            Assert.assertEquals(getLabelText("//label[@for='cc-number']"), "Номер карты", "Надпись для номера карты неверна");
+            Assert.assertEquals(getLabelText("/html/body/app-root/div/div/div/app-payment-container/section/div/app-card-page/div/div[1]/app-card-input/form/div[1]/div[1]/app-input/div/div/div[1]/label"), "Номер карты", "Надпись для номера карты неверна");
             Assert.assertEquals(getLabelText("//label[contains(text(), 'Срок действия')]"), "Срок действия", "Надпись для срока действия неверна");
             Assert.assertEquals(getLabelText("//label[contains(text(), 'CVC')]"), "CVC", "Надпись для CVC неверна");
             Assert.assertEquals(getLabelText("//label[contains(text(), 'Имя держателя (как на карте)')]"), "Имя держателя (как на карте)", "Надпись для имени держателя карты неверна");
