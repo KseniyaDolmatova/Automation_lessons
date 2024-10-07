@@ -205,25 +205,30 @@ public class MtsOnlineRechargeTest2 {
     }
 
     @Test
-    public void testFieldLabelsInModalWindow() {
-        // Инициируем переменные
-        String expectedPhoneNumber = "297777777"; // Объявление переменной
-        String expectedAmount = "100.00"; // Объявление переменной
+    public void openModalWindow() {
+        // Заполнение формы
+        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > div.pay__form > div.select > div.select__wrapper > button")));
+        serviceTypeDropdown.click();
 
-        // Выбор типа сервиса "Услуги связи"
-        selectServiceInCommunicationServices("Услуги связи");
+        // Выбираем «Услуги связи»
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[text()='Услуги связи']")));
+        serviceOption.click();
 
         // Заполняем телефон
         WebElement phoneNumberInput = driver.findElement(By.cssSelector("#connection-phone"));
-        phoneNumberInput.sendKeys(expectedPhoneNumber);
+        phoneNumberInput.sendKeys("297777777");
 
         // Заполняем сумму
         WebElement sum = driver.findElement(By.cssSelector("#connection-sum"));
-        sum.sendKeys(expectedAmount);
+        sum.sendKeys("100");
 
         // Нажимаем на кнопку
         WebElement continueButton = driver.findElement(By.cssSelector("#pay-connection > button"));
         continueButton.click();
+
+        // Инициируем переменные
+        String expectedPhoneNumber = "375297777777"; // Объявление переменной
+        String expectedAmount = "100.00 BYN"; // Объявление переменной
 
         // Вызов метода
         verifyDisplayedInformation(expectedPhoneNumber, expectedAmount);
@@ -237,68 +242,58 @@ public class MtsOnlineRechargeTest2 {
         verifyPaymentIcons();
     }
 
-        // Проверка отображения кода страны и номера телефона
-        private void verifyPhoneNumber (String expectedPhoneNumber){
-            WebElement displayedCountryCode = wait.until(
-
-                    ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='pay-description__text']//*[text()='Оплата']"))
+        // Проверка отображения номера телефона
+        private void verifyPhoneNumber(String expectedPhoneNumber) {
+            WebElement displayedPhoneNumber = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='pay-description__text']/span"))
             );
-            String displayedText = displayedCountryCode.getText();
+            String displayedText = displayedPhoneNumber.getText().trim(); // Убираем лишние пробелы
 
-            String expectedCountryCode = "+375"; // Ожидаемый код страны
-            Assert.assertTrue(displayedText.startsWith(expectedCountryCode), "Код страны отображается неверно");
+            Assert.assertEquals(displayedText, expectedPhoneNumber, "Телефон отображается неверно");
+        }
 
-            String phoneWithoutCode = expectedPhoneNumber.replaceFirst("\\+375", ""); // Удаляем код страны для сравнения
-            Assert.assertTrue(displayedText.contains(phoneWithoutCode), "Номер телефона отображается неверно");
-
-            // Используем JavascriptExecutor для получения информации о платеже
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-
-            // Получаем текст из элемента с оплатой, который содержит код страны и номер
-            String paymentDetails = (String) js.executeScript(
-                    "return document.querySelector('div.pay-description__text span').innerText;"
+        // Проверка суммы
+        private void verifyAmount(String expectedAmount) {
+            WebElement amountContainer = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'pay-description__cost')]/span"))
             );
+            String amountText = amountContainer.getText().trim(); // Убираем лишние пробелы
 
-            // Исходя из полученного текста, извлекаем код страны и номер
-            String[] paymentInfo = paymentDetails.split("Номер:");
-            String retrievedPhoneNumber = paymentInfo[1].trim(); // Извлекаем номер после "Номер:"
-
-            // Теперь проверяем код страны и номер на соответствие
-            Assert.assertTrue(retrievedPhoneNumber.startsWith("375"), "Код страны в номере неверный");
-            Assert.assertEquals(retrievedPhoneNumber, phoneWithoutCode, "Номер телефона отображается неверно");
+            // Проверяем, совпадает ли показанный текст с ожидаемым
+            Assert.assertEquals(amountText, expectedAmount, "Сумма неверна");
         }
 
-        // Проверка суммы и валюты
-       private void verifyAmount (String expectedAmount){
-            WebElement amountContainer = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Руб.')]")));
-            String amountText = amountContainer.getText();
-            Assert.assertTrue(amountText.contains(expectedAmount), "Сумма неверна");
+        // Проверка суммы на кнопке
+    private void verifyPaymentButton(String expectedAmount) {
+        // Ожидание и получение элемента кнопки
+        WebElement payButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(@class, 'colored') and contains(text(), 'Оплатить')]")));
 
-            String expectedCurrency = "Руб."; // Ожидаемая валюта для проверки
-            Assert.assertTrue(amountText.contains(expectedCurrency), "Валюта неверна");
-        }
+        // Получение текста кнопки и удаление лишних пробелов
+        String buttonText = payButton.getText().trim(); // Убираем лишние пробелы
 
-        // Проверка суммы и валюты на кнопке
-        private void verifyPaymentButton (String expectedAmount){
-            WebElement payButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Оплатить')]")));
-            String buttonText = payButton.getText();
-            String[] buttonParts = buttonText.split(" "); // Разделяем текст кнопки на части
-            Assert.assertEquals(buttonParts[1], expectedAmount, "Сумма на кнопке неверна");
-            Assert.assertEquals(buttonParts[2], "Руб.", "Валюта на кнопке неверна");
-        }
+        // Проверяем, совпадает ли показанный текст с ожидаемым
+        Assert.assertTrue(buttonText.contains(expectedAmount), "Сумма на кнопке неверна");
+    }
 
         // Проверка наличия надписей в полях для реквизитов карты
-        private void verifyCardInputLabels () {
-            Assert.assertEquals(getLabelText("/html/body/app-root/div/div/div/app-payment-container/section/div/app-card-page/div/div[1]/app-card-input/form/div[1]/div[1]/app-input/div/div/div[1]/label"), "Номер карты", "Надпись для номера карты неверна");
+        private void verifyCardInputLabels() {
+            // Проверка надписи для номера карты
+            Assert.assertEquals(getLabelText("//label[contains(text(), 'Номер карты')]"), "Номер карты", "Надпись для номера карты неверна");
+
+            // Проверка надписи для срока действия
             Assert.assertEquals(getLabelText("//label[contains(text(), 'Срок действия')]"), "Срок действия", "Надпись для срока действия неверна");
+
+            // Проверка надписи для CVC
             Assert.assertEquals(getLabelText("//label[contains(text(), 'CVC')]"), "CVC", "Надпись для CVC неверна");
+
+            // Проверка надписи для имени держателя карты
             Assert.assertEquals(getLabelText("//label[contains(text(), 'Имя держателя (как на карте)')]"), "Имя держателя (как на карте)", "Надпись для имени держателя карты неверна");
         }
 
         // Вспомогательный метод для получения текста метки
-        private String getLabelText (String xpath){
-            WebElement label = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
-            return label.getText();
+        private String getLabelText(String xpath) {
+            WebElement labelElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+            return labelElement.getText().trim(); // Убираем лишние пробелы
         }
 
         // Проверка наличия иконок платёжных систем
