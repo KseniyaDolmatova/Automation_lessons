@@ -36,15 +36,15 @@ public class MtsOnlineRechargeTest2 {
         }
     }
 
-    @Test
+    @Test (priority = 1)
     public void testFieldLabelsInCommunicationServices() {
         // Выбор типа сервиса "Услуги связи"
         selectServiceInCommunicationServices("Услуги связи");
 
         // Проверка полей
-        checkPhoneFieldInCommunicationServices();
-        checkSumFieldInCommunicationServices();
-        checkEmailFieldInCommunicationServices();
+        checkPhoneFieldInCommunicationServices(); // Телефон
+        checkSumFieldInCommunicationServices(); // Сумма
+        checkEmailFieldInCommunicationServices(); // Email
     }
 
     private void selectServiceInCommunicationServices(String serviceName) {
@@ -81,15 +81,15 @@ public class MtsOnlineRechargeTest2 {
         Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
     }
 
-    @Test
+    @Test (priority = 2)
     public void testFieldLabelsInHomeInternet() {
         // Выбор типа сервиса "Домашний интернет"
         selectServiceInHomeInternet("Домашний интернет");
 
         // Проверка полей
-        checkPhoneFieldInHomeInternet();
-        checkSumFieldInHomeInternet();
-        checkEmailFieldInHomeInternet();
+        checkPhoneFieldInHomeInternet(); // Телефон
+        checkSumFieldInHomeInternet(); // Сумма
+        checkEmailFieldInHomeInternet(); // Email
     }
 
     private void selectServiceInHomeInternet(String serviceName) {
@@ -121,15 +121,15 @@ public class MtsOnlineRechargeTest2 {
         Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
     }
 
-    @Test
+    @Test (priority = 3)
     public void testFieldLabelsInInstallmentServices() {
         // Выбор типа сервиса "Рассрочка"
         selectServiceInInstallmentServices("Рассрочка");
 
         // Проверка полей
-        checkAccountNumberFieldInInstallmentServices(); // Проверка поля для номера счета
-        checkInstalmentSumFieldInInstallmentServices(); // Проверка поля для суммы
-        checkEmailFieldInInstallmentServices(); // Проверка поля для email
+        checkAccountNumberFieldInInstallmentServices(); // Номерр счета
+        checkInstalmentSumFieldInInstallmentServices(); // Сумма
+        checkEmailFieldInInstallmentServices(); // Email
     }
 
     private void selectServiceInInstallmentServices(String serviceName) {
@@ -140,14 +140,12 @@ public class MtsOnlineRechargeTest2 {
         serviceOption.click();
     }
 
-    // Проверка поля для номера счета
     private void checkAccountNumberFieldInInstallmentServices() {
         WebElement accountNumberInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='score-instalment']")));
 
         Assert.assertEquals(accountNumberInput.getAttribute("placeholder"), "Номер счета на 44", "Надпись для номера счета неверна");
     }
 
-    // Проверка поля для суммы рассрочки
     private void checkInstalmentSumFieldInInstallmentServices() {
         WebElement instalmentSumInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='instalment-sum']"))); // Поле суммы рассрочки
         WebElement instalmentSumLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='instalment-sum']")));
@@ -156,25 +154,27 @@ public class MtsOnlineRechargeTest2 {
         Assert.assertEquals(instalmentSumInput.getAttribute("placeholder"), "Сумма", "Надпись для суммы неверна");
     }
 
-    // Проверка полей для email
     private void checkEmailFieldInInstallmentServices() {
         WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='instalment-email']")));
 
         Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
     }
 
-    @Test
+    @Test (priority = 4)
     public void testFieldLabelsInDebtServices() {
         // Выбор типа сервиса "Задолженность"
         selectServiceInDebtServices("Задолженность");
 
         // Проверка полей
-        checkAccountNumberFieldInDebtServices(); // Проверка поля для номера счета
-        checkDebtSumFieldInDebtServices(); // Проверка поля для суммы задолженности
-        checkEmailFieldInDebtServices(); // Проверка поля для email
+        checkAccountNumberFieldInDebtServices(); // Номер счета
+        checkDebtSumFieldInDebtServices(); // Сумма задолжденности
+        checkEmailFieldInDebtServices(); // Email
     }
 
     private void selectServiceInDebtServices(String serviceName) {
+
+        WebElement clickableElement = driver.findElement(By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button"));
+        clickableElement.click();
         WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button")));
         serviceTypeDropdown.click();
 
@@ -183,13 +183,11 @@ public class MtsOnlineRechargeTest2 {
         serviceOption.click();
     }
 
-    // Проверка поля для номера счета
     private void checkAccountNumberFieldInDebtServices() {
         WebElement accountNumberInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='score-arrears']")));
         Assert.assertEquals(accountNumberInput.getAttribute("placeholder"), "Номер счета на 2073", "Надпись для номера счета неверна");
     }
 
-    // Проверка поля для суммы задолженности
     private void checkDebtSumFieldInDebtServices() {
         WebElement debtSumInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='arrears-sum']")));
         WebElement debtSumLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pay-arrears\"]/div[2]/label")));
@@ -198,32 +196,34 @@ public class MtsOnlineRechargeTest2 {
         Assert.assertEquals(debtSumInput.getAttribute("placeholder"), "Сумма", "Надпись для суммы неверна");
     }
 
-    // Проверка поля для email
     private void checkEmailFieldInDebtServices() {
         WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='arrears-email']")));
         Assert.assertEquals(emailInput.getAttribute("placeholder"), "E-mail для отправки чека", "Надпись для email неверна");
     }
 
-    @Test
+    @Test (priority = 5)
     public void openModalWindow() {
+
+        WebElement clickableElement = driver.findElement(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button"));
+        clickableElement.click();
         // Заполнение формы
-        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#pay-section > div > div > div.col-12.col-xl-8 > section > div > div.pay__form > div.select > div.select__wrapper > button")));
+        WebElement serviceTypeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button")));
         serviceTypeDropdown.click();
 
         // Выбираем «Услуги связи»
-        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[text()='Услуги связи']")));
+        WebElement serviceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[1]/div[1]/div[2]/ul/li[1]/p")));
         serviceOption.click();
 
         // Заполняем телефон
-        WebElement phoneNumberInput = driver.findElement(By.cssSelector("#connection-phone"));
+        WebElement phoneNumberInput = driver.findElement(By.xpath("//*[@id=\"connection-phone\"]"));
         phoneNumberInput.sendKeys("297777777");
 
         // Заполняем сумму
-        WebElement sum = driver.findElement(By.cssSelector("#connection-sum"));
+        WebElement sum = driver.findElement(By.xpath("//*[@id=\"connection-sum\"]"));
         sum.sendKeys("100");
 
         // Нажимаем на кнопку
-        WebElement continueButton = driver.findElement(By.cssSelector("#pay-connection > button"));
+        WebElement continueButton = driver.findElement(By.xpath("//*[@id=\"pay-connection\"]/button"));
         continueButton.click();
 
         // Инициируем переменные
@@ -242,29 +242,58 @@ public class MtsOnlineRechargeTest2 {
         verifyPaymentIcons();
     }
 
+    // Фрейм
+    private void switchToIframe() {
+        WebElement iframeElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("iframe.bepaid-iframe")));
+        driver.switchTo().frame(iframeElement);
+    }
+
+    private void switchToDefaultContent() {
+        driver.switchTo().defaultContent();
+    }
+
         // Проверка отображения номера телефона
         private void verifyPhoneNumber(String expectedPhoneNumber) {
-            WebElement displayedPhoneNumber = wait.until(
+
+            switchToIframe();
+
+            // Находим элемент с номером телефона
+            WebElement displayedPhoneNumberElement = wait.until(
                     ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='pay-description__text']/span"))
             );
-            String displayedText = displayedPhoneNumber.getText().trim(); // Убираем лишние пробелы
 
-            Assert.assertEquals(displayedText, expectedPhoneNumber, "Телефон отображается неверно");
+            String displayedText = displayedPhoneNumberElement.getText().trim(); // Убираем лишние пробелы
+
+            // Извлекаем номер телефона из текста, удаляя лишние слова
+            String actualPhoneNumber = displayedText.replaceAll(".*Номер:\\s*", "").trim();
+
+            // Сравниваем текст на странице с ожидаемым значением
+            Assert.assertEquals(expectedPhoneNumber, actualPhoneNumber, "Телефон отображается неверно");
+
+            switchToDefaultContent();
         }
 
         // Проверка суммы
         private void verifyAmount(String expectedAmount) {
+
+            switchToIframe();
+
             WebElement amountContainer = wait.until(
                     ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'pay-description__cost')]/span"))
             );
             String amountText = amountContainer.getText().trim(); // Убираем лишние пробелы
 
-            // Проверяем, совпадает ли показанный текст с ожидаемым
+            // Сравниваем текст на странице с ожидаемым значением
             Assert.assertEquals(amountText, expectedAmount, "Сумма неверна");
+
+            switchToDefaultContent();
         }
 
         // Проверка суммы на кнопке
     private void verifyPaymentButton(String expectedAmount) {
+
+        switchToIframe();
+
         // Ожидание и получение элемента кнопки
         WebElement payButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(@class, 'colored') and contains(text(), 'Оплатить')]")));
 
@@ -273,10 +302,15 @@ public class MtsOnlineRechargeTest2 {
 
         // Проверяем, совпадает ли показанный текст с ожидаемым
         Assert.assertTrue(buttonText.contains(expectedAmount), "Сумма на кнопке неверна");
+
+        switchToDefaultContent();
     }
 
         // Проверка наличия надписей в полях для реквизитов карты
         private void verifyCardInputLabels() {
+
+            switchToIframe();
+
             // Проверка надписи для номера карты
             Assert.assertEquals(getLabelText("//label[contains(text(), 'Номер карты')]"), "Номер карты", "Надпись для номера карты неверна");
 
@@ -288,6 +322,8 @@ public class MtsOnlineRechargeTest2 {
 
             // Проверка надписи для имени держателя карты
             Assert.assertEquals(getLabelText("//label[contains(text(), 'Имя держателя (как на карте)')]"), "Имя держателя (как на карте)", "Надпись для имени держателя карты неверна");
+
+            switchToDefaultContent();
         }
 
         // Вспомогательный метод для получения текста метки
@@ -297,27 +333,42 @@ public class MtsOnlineRechargeTest2 {
         }
 
         // Проверка наличия иконок платёжных систем
-        private void verifyPaymentIcons () {
+        private void verifyPaymentIcons() {
+
+            switchToIframe();
+
             // Ожидаемые иконки
-            List<String> expectedIcons = Arrays.asList("visa-system.svg", "mastercard-system.svg", "belkart-system.svg", "maestro-system.svg", "mir-system-ru.svg");
+            List<String> expectedIcons = Arrays.asList(
+                    "visa-system.svg",
+                    "mastercard-system.svg",
+                    "belkart-system.svg",
+                    "maestro-system.svg",
+                    "mir-system-ru.svg"
+            );
 
             // Получение всех иконок на странице
-            List<WebElement> paymentIcons = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[contains(@class, 'cards-brands__container')]//img")));
+            List<WebElement> paymentIcons = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                    By.xpath("//div[contains(@class, 'cards-brands cards-brands__container')]//img"))
+            );
 
             Assert.assertFalse(paymentIcons.isEmpty(), "Иконки платёжной системы не отображаются");
 
             // Проверка наличия каждой иконки
             for (String expectedIcon : expectedIcons) {
                 boolean iconFound = paymentIcons.stream()
-                        .anyMatch(icon -> icon.getAttribute("src").contains(expectedIcon));
+                        .anyMatch(icon -> icon.getAttribute("src").endsWith(expectedIcon));
+
                 Assert.assertTrue(iconFound, "Иконка " + expectedIcon + " отсутствует на странице");
             }
 
             // Проверка иконок Maestro и Mir, которые могут сменять друг друга
-            boolean maestroDisplayed = isElementPresent(By.xpath("//div[contains(@class, 'cards-brands_random')]//img[contains(@src, 'maestro-system.svg') and not(contains(@style, 'opacity: 0'))]"));
-            boolean mirDisplayed = isElementPresent(By.xpath("//div[contains(@class, 'cards-brands_random')]//img[contains(@src, 'mir-system-ru.svg') and not(contains(@style, 'opacity: 0'))]"));
+            boolean maestroDisplayed = isElementPresent(By.xpath("/html/body/app-root/div/div/div/app-payment-container/section/div/app-card-page/div/div[1]/app-card-input/form/div[1]/div[1]/app-input/div/div/div[2]/div/div/div/img[1]"));
+            boolean mirDisplayed = isElementPresent(By.xpath("/html/body/app-root/div/div/div/app-payment-container/section/div/app-card-page/div/div[1]/app-card-input/form/div[1]/div[1]/app-input/div/div/div[2]/div/div/div/img[2]"));
 
-            Assert.assertTrue(maestroDisplayed || mirDisplayed, "Иконки Maestro и Mir не отображаются");
+            // Тест пройдет, если хотя бы одна из иконок Maestro или Mir отображается
+            Assert.assertTrue(maestroDisplayed || mirDisplayed, "Не отображаются ни иконки Maestro, ни Mir");
+
+            switchToDefaultContent();
         }
 
         private boolean isElementPresent (By by){
