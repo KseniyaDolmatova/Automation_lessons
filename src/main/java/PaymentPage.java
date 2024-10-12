@@ -269,6 +269,7 @@ class OpenModalWindow {
         PageFactory.initElements(driver, this);
     }
 
+    // Открытие окна
     public void openModalWindow() {
         serviceTypeDropdown.click();
         wait.until(ExpectedConditions.elementToBeClickable(serviceOption)).click();
@@ -298,6 +299,7 @@ class OpenModalWindow {
         driver.switchTo().defaultContent();
     }
 
+    // Проверка номера телефона
     private void verifyPhoneNumber(String expectedPhoneNumber) {
         switchToIframe();
         WebElement displayedPhoneNumberElement = wait.until(
@@ -310,6 +312,7 @@ class OpenModalWindow {
         switchToDefaultContent();
     }
 
+    // Проверка суммы
     private void verifyAmount(String expectedAmount) {
         switchToIframe();
         WebElement amountContainer = wait.until(
@@ -320,6 +323,7 @@ class OpenModalWindow {
         switchToDefaultContent();
     }
 
+    // Проверка суммы на кнопке
     private void verifyPaymentButton(String expectedAmount) {
         switchToIframe();
         WebElement payButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='card-page__card']/button")));
