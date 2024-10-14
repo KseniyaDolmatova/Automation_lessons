@@ -16,6 +16,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+    implementation 'org.testng:testng:7.1.0'
     dependencies {
         implementation 'org.seleniumhq.selenium:selenium-java:4.25.0'
         implementation 'com.google.guava:guava:33.3.1-jre'

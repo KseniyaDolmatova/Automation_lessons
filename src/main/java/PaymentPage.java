@@ -1,10 +1,11 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.By;
+import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -34,7 +35,7 @@ public class PaymentPage {
     @FindBy(xpath = "//a[contains(text(), 'Подробнее о сервисе')]")
     private WebElement moreInfoLink;
 
-    @FindBy(css = "#pay-connection > button")
+    @FindBy(xpath = "//*[@id='pay-connection']/button")
     private WebElement continueButton;
 
     @FindBy(xpath = "//*[@id=\"connection-phone\"]")
@@ -43,11 +44,6 @@ public class PaymentPage {
     @FindBy(xpath = "//*[@id=\"connection-sum\"]")
     private WebElement sumField;
 
-    @FindBy(css = ".select__header")
-    private WebElement serviceTypeSelector;
-
-    @FindBy(css = ".select__option")
-    private WebElement serviceTypeOption;
 
     public PaymentPage(WebDriver driver) {
         this.driver = driver;
@@ -59,23 +55,29 @@ public class PaymentPage {
         return wait.until(ExpectedConditions.visibilityOf(blockTitle)).getText();
     }
 
-    public void checkPaymentLogos() {
-        if (!visaLogo.isDisplayed()) {
-            throw new AssertionError("Логотип Visa не отображается.");
-        }
-        if (!verifiedByVisaLogo.isDisplayed()) {
-            throw new AssertionError("Логотип Verified By Visa не отображается.");
-        }
-        if (!mastercardLogo.isDisplayed()) {
-            throw new AssertionError("Логотип MasterCard не отображается.");
-        }
-        if (!masterCardSecureLogo.isDisplayed()) {
-            throw new AssertionError("Логотип MasterCard Secure не отображается.");
-        }
-        if (!belkartLogo.isDisplayed()) {
-            throw new AssertionError("Логотип Белкарт не отображается.");
-        }
+    public void checkVisaLogo() {
+        wait.until(ExpectedConditions.visibilityOf(visaLogo));
+        Assert.assertTrue(visaLogo.isDisplayed(), "Логотип Visa не отображается.");
+    }
 
+    public void checkVerifiedByVisaLogo() {
+        wait.until(ExpectedConditions.visibilityOf(verifiedByVisaLogo));
+        Assert.assertTrue(verifiedByVisaLogo.isDisplayed(), "Логотип Verified By Visa не отображается.");
+    }
+
+    public void checkMastercardLogo() {
+        wait.until(ExpectedConditions.visibilityOf(mastercardLogo));
+        Assert.assertTrue(mastercardLogo.isDisplayed(), "Логотип MasterCard не отображается.");
+    }
+
+    public void checkMasterCardSecureLogo() {
+        wait.until(ExpectedConditions.visibilityOf(masterCardSecureLogo));
+        Assert.assertTrue(masterCardSecureLogo.isDisplayed(), "Логотип MasterCard Secure не отображается.");
+    }
+
+    public void checkBelkartLogo() {
+        wait.until(ExpectedConditions.visibilityOf(belkartLogo));
+        Assert.assertTrue(belkartLogo.isDisplayed(), "Логотип Белкарт не отображается.");
     }
 
     public void checkMoreInfoLink() {
@@ -88,20 +90,25 @@ public class PaymentPage {
         driver.navigate().back();
     }
 
-    public void fillFormAndCheckContinueButton(String phoneNumber, String sum) {
+    public void enterPhoneNumber(String phoneNumber) {
         phoneNumberField.clear();
         phoneNumberField.sendKeys(phoneNumber);
+    }
+
+    public void enterSum(String sum) {
         sumField.clear();
         sumField.sendKeys(sum);
-        serviceTypeSelector.click();
-        serviceTypeOption.click();
-        continueButton.click();
-
-        // Переключение на фрейм
-        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[contains(@class, 'bepaid-iframe')]")));
-
-        // Проверка, отображается ли модальное окно
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'app-wrapper__content-container app-wrapper__content-container_full')]")));
-
     }
+
+    public void clickContinueButton() {
+        continueButton.click();
+    }
+
+    public void switchToPaymentFrame() {
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[contains(@class, 'bepaid-iframe')]")));
+                }
+
+    public boolean isModalVisible() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'app-wrapper__content-container app-wrapper__content-container_full')]"))).isDisplayed();
+        }
 }
