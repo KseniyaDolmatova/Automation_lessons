@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.opentelemetry:opentelemetry-api-incubator:1.42.1-alpha">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opentelemetry/opentelemetry-api-incubator/1.42.1-alpha/34deab246aa89c609849ebf17716c5c3a5831fb2/opentelemetry-api-incubator-1.42.1-alpha.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opentelemetry/opentelemetry-api-incubator/1.42.1-alpha/e0f744dc14ee806b1b57e46d07bd6283f455915e/opentelemetry-api-incubator-1.42.1-alpha-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
