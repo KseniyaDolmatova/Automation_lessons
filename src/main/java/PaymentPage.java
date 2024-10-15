@@ -5,7 +5,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -56,39 +55,32 @@ public class PaymentPage {
         return wait.until(ExpectedConditions.visibilityOf(blockTitle)).getText();
     }
 
-    public void checkVisaLogo() {
-        wait.until(ExpectedConditions.visibilityOf(visaLogo));
-        Assert.assertTrue(visaLogo.isDisplayed(), "Логотип Visa не отображается.");
+    public boolean isVisaLogoDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOf(visaLogo)).isDisplayed();
     }
 
-    public void checkVerifiedByVisaLogo() {
-        wait.until(ExpectedConditions.visibilityOf(verifiedByVisaLogo));
-        Assert.assertTrue(verifiedByVisaLogo.isDisplayed(), "Логотип Verified By Visa не отображается.");
+    public boolean isVerifiedByVisaLogoDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOf(verifiedByVisaLogo)).isDisplayed();
     }
 
-    public void checkMastercardLogo() {
-        wait.until(ExpectedConditions.visibilityOf(mastercardLogo));
-        Assert.assertTrue(mastercardLogo.isDisplayed(), "Логотип MasterCard не отображается.");
+    public boolean isMastercardLogoDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOf(mastercardLogo)).isDisplayed();
     }
 
-    public void checkMasterCardSecureLogo() {
-        wait.until(ExpectedConditions.visibilityOf(masterCardSecureLogo));
-        Assert.assertTrue(masterCardSecureLogo.isDisplayed(), "Логотип MasterCard Secure не отображается.");
+    public boolean isMasterCardSecureLogoDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOf(masterCardSecureLogo)).isDisplayed();
     }
 
-    public void checkBelkartLogo() {
-        wait.until(ExpectedConditions.visibilityOf(belkartLogo));
-        Assert.assertTrue(belkartLogo.isDisplayed(), "Логотип Белкарт не отображается.");
+    public boolean isBelkartLogoDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOf(belkartLogo)).isDisplayed();
     }
 
-    public void checkMoreInfoLink() {
+    public String clickMoreInfoLinkAndGetUrl() {
         moreInfoLink.click();
         wait.until(ExpectedConditions.titleIs("Порядок оплаты и безопасность интернет платежей"));
-        String expectedUrl = "https://www.mts.by/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/";
-        if (!driver.getCurrentUrl().equals(expectedUrl)) {
-            throw new AssertionError("URL не соответствует ожидаемому после перехода.");
-        }
+        String currentUrl = driver.getCurrentUrl();
         driver.navigate().back();
+        return currentUrl;
     }
 
     public void enterPhoneNumber(String phoneNumber) {
