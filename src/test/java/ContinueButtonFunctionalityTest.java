@@ -1,7 +1,15 @@
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class ContinueButtonFunctionalityTest extends BaseTest {
+    private PaymentPage paymentPage;
+
+    @BeforeClass
+    public void setUp() {
+        super.setUp();
+        paymentPage = new PaymentPage(driver);
+    }
 
     @Test
     public void testContinueButtonFunctionality() {
