@@ -10,6 +10,7 @@ import org.testng.Assert;
 import java.time.Duration;
 
 public class PaymentPage {
+
     private WebDriver driver;
     private WebDriverWait wait;
 

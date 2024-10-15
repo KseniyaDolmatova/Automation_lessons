@@ -4,6 +4,7 @@ public class MoreInfoLinkTest extends BaseTest {
 
     @Test
     public void testMoreInfoLink() {
+
         paymentPage.checkMoreInfoLink();
     }
 }

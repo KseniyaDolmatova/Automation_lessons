@@ -6,6 +6,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 public class BaseTest {
+
     protected WebDriver driver;
     private WebDriverWait wait;
     protected HomePage homePage;
