@@ -1,21 +1,33 @@
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.Assert;
 
 public class FieldLabelsInCommunicationServicesTest extends BaseTest {
-    private CommunicationServicesPage communicationServicesPage;
+
+    private PaymentPage paymentPage;
 
     @BeforeClass
-    @Override
-    public void setUp() {
+    @Override public void setUp() {
         super.setUp();
-        communicationServicesPage = new CommunicationServicesPage(driver);
+        paymentPage = new PaymentPage(driver);
     }
 
-    @Test
-    public void testFieldLabelsInCommunicationServices() {
-        communicationServicesPage.selectCommunicationServices();
-        communicationServicesPage.checkPhoneField();
-        communicationServicesPage.checkSumField();
-        communicationServicesPage.checkEmailField();
+    // Проверка надписей в незаполненных полях, "Услуги связи"
+    @Test public void testFieldLabelsInCommunicationServices() {
+        paymentPage.selectCommunicationServices();
+
+        // Проверка поля телефон
+        String phonePlaceholder = paymentPage.getPhoneInputPlaceholder();
+        Assert.assertEquals(phonePlaceholder, "Номер телефона", "Надпись для телефона неверна");
+
+        // Проверка поля суммы
+        String sumPlaceholder = paymentPage.getSumInputPlaceholder();
+        Assert.assertEquals(sumPlaceholder, "Сумма", "Надпись для суммы неверна");
+
+        // Проверка поля email
+        String emailPlaceholder = paymentPage.getEmailInputPlaceholder();
+        Assert.assertEquals(emailPlaceholder, "E-mail для отправки чека", "Надпись для email неверна");
     }
+
 }
+
