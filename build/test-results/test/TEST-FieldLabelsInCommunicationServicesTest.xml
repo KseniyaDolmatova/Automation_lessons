@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="FieldLabelsInCommunicationServicesTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-15T07:26:39" hostname="DESKTOP-98NF5KK" time="0.307">
+  <properties/>
+  <testcase name="testFieldLabelsInCommunicationServices" classname="FieldLabelsInCommunicationServicesTest" time="0.307"/>
+  <system-out><![CDATA[Кнопка 'Принять' не найдена: Expected condition failed: waiting for element to be clickable: [[ChromeDriver: chrome on windows (da1580a557bb65548aa14364a58d2444)] -> id: cookie-agree] (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.25.0', revision: '8a8aea2337'
+System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '11.0.22'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 130.0.6723.44, chrome: {chromedriverVersion: 130.0.6723.44 (0927c6858981..., userDataDir: C:\Users\KSENIYA\AppData\Lo...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:57502}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:57502/devtoo..., se:cdpVersion: 130.0.6723.44, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: da1580a557bb65548aa14364a58d2444
+]]></system-out>
+  <system-err><![CDATA[окт. 15, 2024 10:26:25 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 130, returning the closest version; found: 129; Please update to a Selenium version that supports CDP version 130
+]]></system-err>
+</testsuite>
